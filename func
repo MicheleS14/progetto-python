@@ -1,0 +1,14 @@
+import pandas as pd
+
+def played_Match_Map(df : pd.DataFrame) -> pd.DataFrame:
+    """Ritorna il numero di partite giocate per ogni mappa"""
+    df_most_play = df.groupby("mapname")["gamemode"].count()
+    return df_most_play
+
+def most_Played_Operator (df : pd.DataFrame, map : str) -> str:
+    """Ritorna il nome dell'operatore più giocato\nSe si verifica un errore ritorna False"""
+    try:
+        operator = df[df["mapname"] == map].groupby("operator")["operator"].count().idxmax()
+    except:
+        return False
+    return operator
