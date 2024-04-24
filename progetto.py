@@ -19,6 +19,21 @@ df_PC = df[df["platform"] == "PC"]
 df_PS4 = df[df["platform"] == "PS4"]
 df_XBOX = df[df["platform"] == "XONE"]
 
+# Conteggio delle occorrenze per ogni piattaforma
+pc_count = len(df_PC)
+ps4_count = len(df_ps4)
+xbox_count = len(df_xbox)
+
+# Etichette e dati per il grafico a torta
+labels = ['PC', 'PS4', 'XBOX']
+sizes = [pc_count, ps4_count, xbox_count]
+
+# Creazione del grafico a torta
+plt.figure(figsize=(8, 6))
+plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
+plt.axis('equal')  # Per fare in modo che il grafico a torta sia circolare
+plt.title('Numero giocatori per piattaforma', fontsize=16, fontweight='bold')
+plt.show()
 
 #Suddividiamo le modalità per ogni piattaforma
 
