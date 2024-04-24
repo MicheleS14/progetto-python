@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import numpy as np
+import Func
 
 #Costruiamo il percorso del csv da aprire
 current_file = __file__
@@ -9,8 +10,8 @@ current_dir = os.path.dirname(current_file)
 file_dir = os.path.join(current_dir + '\\datadump_s5-000.csv')
 
 #Leggiamo il csv e creiamo un dataframe
-###dataset = pd.read_csv(file_dir, nrows = 100000)
-dataset = pd.read_csv(file_dir)
+dataset = pd.read_csv(file_dir, nrows = 100000)
+#dataset = pd.read_csv(file_dir)
 df = pd.DataFrame(dataset)
 
 #Creiamo 3 differenti dataframe per ogni piattaforma
@@ -93,3 +94,6 @@ plt.yticks(x, df_Map_PC_Ostaggio.index)
 plt.title("Numero partite per mappa in ostaggio")
 plt.legend(["PC", "PS4", "XBOX"])
 plt.show()
+
+df_Match = Func.played_Match_Map(df)
+print(df_Match.idxmax())
