@@ -11,5 +11,5 @@ file_dir = os.path.join(current_dir + '/datadump_s5-000.csv')
 dataset = pd.read_csv(file_dir)
 df = pd.DataFrame(dataset)
 
-print(df.info())
-print(df.describe())
+df_Platform = df.groupby(['platform'])
+df_PC = df_Platform[df_Platform['platform'] == 'PC']
