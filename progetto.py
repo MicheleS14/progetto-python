@@ -19,21 +19,6 @@ df_PC = df[df["platform"] == "PC"]
 df_PS4 = df[df["platform"] == "PS4"]
 df_XBOX = df[df["platform"] == "XONE"]
 
-# Conteggio delle occorrenze per ogni piattaforma
-pc_count = len(df_PC)
-ps4_count = len(df_ps4)
-xbox_count = len(df_xbox)
-
-# Etichette e dati per il grafico a torta
-labels = ['PC', 'PS4', 'XBOX']
-sizes = [pc_count, ps4_count, xbox_count]
-
-# Creazione del grafico a torta
-plt.figure(figsize=(8, 6))
-plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
-plt.axis('equal')  # Per fare in modo che il grafico a torta sia circolare
-plt.title('Numero giocatori per piattaforma', fontsize=16, fontweight='bold')
-plt.show()
 
 #Suddividiamo le modalità per ogni piattaforma
 
@@ -57,19 +42,19 @@ df_XBOX_Ostaggio = df_XBOX[df_XBOX["gamemode"] == "HOSTAGE"]
 #Contiamo quante partite sono state giocate in ogni mappa per ogni modalità
 
 #PC
-df_Map_PC_Presidio = df_PC_Presidio.groupby("mapname")["gamemode"].count()
-df_Map_PC_Bomba = df_PC_Bomba.groupby("mapname")["gamemode"].count()
-df_Map_PC_Ostaggio = df_PC_Ostaggio.groupby("mapname")["gamemode"].count()
+df_Map_PC_Presidio = Func.played_Match_Maps(df_PC_Presidio)
+df_Map_PC_Bomba = Func.played_Match_Maps(df_PC_Bomba)
+df_Map_PC_Ostaggio = Func.played_Match_Maps(df_PC_Ostaggio)
 
 #PS4
-df_Map_PS4_Presidio = df_PS4_Presidio.groupby("mapname")["gamemode"].count()
-df_Map_PS4_Bomba = df_PS4_Bomba.groupby("mapname")["gamemode"].count()
-df_Map_PS4_Ostaggio = df_PS4_Ostaggio.groupby("mapname")["gamemode"].count()
+df_Map_PS4_Presidio = Func.played_Match_Maps(df_PS4_Presidio)
+df_Map_PS4_Bomba = Func.played_Match_Maps(df_PS4_Bomba)
+df_Map_PS4_Ostaggio = Func.played_Match_Maps(df_PS4_Ostaggio)
 
 #XBOX
-df_Map_XBOX_Presidio = df_XBOX_Presidio.groupby("mapname")["gamemode"].count()
-df_Map_XBOX_Bomba = df_XBOX_Bomba.groupby("mapname")["gamemode"].count()
-df_Map_XBOX_Ostaggio = df_XBOX_Ostaggio.groupby("mapname")["gamemode"].count()
+df_Map_XBOX_Presidio = Func.played_Match_Maps(df_XBOX_Presidio)
+df_Map_XBOX_Bomba = Func.played_Match_Maps(df_XBOX_Bomba)
+df_Map_XBOX_Ostaggio = Func.played_Match_Maps(df_XBOX_Ostaggio)
 
 #print(f"\nModalita' Presidio:\n{df_Map_SecArea}\n\nModalita' Bomba:\n{df_Map_Bomb}\n\nModalita' Ostaggio:\n{df_Map_Hostage}")
 
@@ -110,5 +95,7 @@ plt.title("Numero partite per mappa in ostaggio")
 plt.legend(["PC", "PS4", "XBOX"])
 plt.show()
 
-df_Match = Func.played_Match_Map(df)
-print(df_Match.idxmax())
+df_Match = Func.played_Match_Maps(df)
+
+for map in df["mapname"].unique():
+    print(f"\nMappa: {map}\nOperatore + giocato: {Func.operator_Played(df, map).idxmax()}\nOperatore meno giocato: {Func.operator_Played(df, map).idxmin()}")
