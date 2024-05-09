@@ -78,9 +78,10 @@ def show_Operator_Pick_Win_Rate (df : pd.DataFrame):
 def kills_Mean_For_Round (df : pd.DataFrame, significance_Level : float) -> pd.DataFrame:
     df_Kills_Mean = df.groupby("operator")["nbkills"].mean().sort_index().to_frame("roundkillsmean")
     df_Std_Dev = df.groupby("operator")["nbkills"].std().sort_index().to_frame("stddev")
-    df_Std_Err = df_Std_Dev["stddev"] / np.sqrt(df.groupby("operator")["nbkills"].count().sort_index())
     df_Intervall = scipy.stats.t.ppf(1 - (significance_Level / 2), df_Kills_Mean["roundkillsmean"].count()) * (df_Std_Dev["stddev"] / sqrt(df_Kills_Mean["roundkillsmean"].count()))
-    return df_Kills_Mean.merge(df_Std_Err.to_frame("stderr"), left_index=True, right_index=True)
+    df_Kills_Mean["intervall"] = df_Intervall
+    return df_Kills_Mean
+
 
 def prob_Doing_Kills_For_Rank (df : pd.DataFrame) -> pd.DataFrame:
     return df.groupby(["skillrank", "operator"])["nbkills"].mean()
@@ -95,4 +96,3 @@ def death_Probability (df : pd.DataFrame, nb_Rounds : int, total_Death : int):
     
     return result * 100
    
-    
